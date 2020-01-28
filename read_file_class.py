@@ -1,12 +1,27 @@
+from itertools import islice
 
-def read_file_rec():
-    cook_dict = {}
-    with open('recipes.txt', encoding='utf-8') as txt:
-        while True:
-            dishes_name = txt.readline()[1]
-        for line in txt:
-            key, *value = line
-            cook_dict[key] = value
-        print(cook_dict)
+class ReadRecipesFile:
+    def __init__(self):
+        with open('recipes.txt', encoding='utf-8') as f:
+            cook_book = {}
+            while True:
+                n = f.readline().rstrip()
+                try:
+                    c = int(f.readline().rstrip())
+                except ValueError:
+                    pass
+                d_n = list(islice(f, c))
+                f.readline()
 
-read_file_rec()
+                if not n or not d_n:
+                    break
+
+                ingrs = []
+                for d in d_n:
+                    value = d.split(' | ')
+                    val = {'ingredient_name': value[0], 'quantity': int(value[1]),
+                           'measure': value[2].replace('\n', '')}
+                    ingrs.append(val)
+                    cook_book[n] = [*ingrs]
+
+                self.cook_book = cook_book
