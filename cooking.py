@@ -27,8 +27,15 @@ def get_shop_list_by_dishes():
         count2 += 1
     while count3 <= len(menu3)-1:
         menu4 = {menu3[count3]:{'measure': menu3[count3+2], 'quantity':menu3[(count3+1)]*person_count}}
+        for key in menu4.keys():
+            if key not in menu_dict.keys():
+                menu_dict.update(menu4)
+            else:
+                menu4 = {menu3[count3]: {'measure': menu3[count3 + 2], 'quantity': menu3[(count3 + 1)] * person_count*2}}
+                menu_dict.update(menu4)
         count3 += 3
-        menu_dict.update(menu4.copy())
+
+
     pprint(menu_dict)
 
 
